@@ -1,0 +1,112 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // --- CORE SECURITY FUNCTIONS ---
+    function isAuthed() { 
+      return request.auth != null; 
+    }
+    
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    
+    // Defensive Null Check applied
+    function isActive() {
+      let data = getUserData();
+      return data != null && data.active == true;
+    }
+    
+    // Defensive Null Check applied
+    function isAdmin() { 
+      let data = getUserData(); 
+      return data != null && data.role == 'admin'; 
+    }
+
+    function belongsToCompany() {
+      return isAuthed() && isActive() && resource.data.companyId == getUserData().companyId;
+    }
+    
+    function incomingBelongsToCompany() {
+      return isAuthed() && isActive() && request.resource.data.companyId == getUserData().companyId;
+    }
+
+    // --- USERS COLLECTION ---
+    match /users/{userId} {
+      allow read: if isAuthed() && (request.auth.uid == userId || (isActive() && isAdmin() && belongsToCompany()));
+      
+      allow create: if isAuthed() && (
+        // Registration Flow
+        (request.auth.uid == userId 
+         && request.resource.data.role == 'admin' 
+         && get(/databases/$(database)/documents/companies/$(request.resource.data.companyId)).data.ownerUid == request.auth.uid) 
+        || 
+        // Admin Staff/Admin Creation Flow (Option A: Multiple Admins Allowed)
+        (request.auth.uid != userId 
+         && isActive() 
+         && isAdmin() 
+         && request.resource.data.companyId == getUserData().companyId)
+      );
+
+      allow update: if isAuthed() && isActive() && (
+        // Self Update (No Role/Active/Company hopping)
+        (request.auth.uid == userId 
+         && request.resource.data.companyId == resource.data.companyId 
+         && request.resource.data.role == resource.data.role           
+         && request.resource.data.active == resource.data.active       
+        )
+        ||
+        // Admin Update
+        (belongsToCompany() && isAdmin() 
+         && request.resource.data.companyId == resource.data.companyId
+         // OWNER PROTECTION
+         && (
+              get(/databases/$(database)/documents/companies/$(resource.data.companyId)).data.ownerUid != userId 
+              || 
+              (request.resource.data.role == 'admin' && request.resource.data.active == true)
+            )
+        )
+      );
+      allow delete: if false; 
+    }
+
+    // --- COMPANIES COLLECTION ---
+    match /companies/{companyId} {
+      allow read: if isAuthed() && isActive() && getUserData().companyId == companyId;
+      
+      // Strict Ownership validation on Create
+      allow create: if isAuthed() && request.resource.data.ownerUid == request.auth.uid && !exists(/databases/$(database)/documents/companies/$(companyId)); 
+      
+      // Immutability Patch applied
+      allow update: if isAuthed() && isActive() && getUserData().companyId == companyId && isAdmin()
+                    && request.resource.data.companyId == resource.data.companyId
+                    && request.resource.data.ownerUid == resource.data.ownerUid;
+      allow delete: if false;
+    }
+
+    // --- MASTERS (Products, Parties, Banks) ---
+    match /products/{docId} {
+      allow read: if belongsToCompany();
+      allow create: if incomingBelongsToCompany() && isAdmin();
+      allow update, delete: if belongsToCompany() && isAdmin();
+    }
+    match /parties/{docId} {
+      allow read: if belongsToCompany();
+      allow create: if incomingBelongsToCompany() && isAdmin();
+      allow update, delete: if belongsToCompany() && isAdmin();
+    }
+    match /bankAccounts/{docId} {
+      allow read: if belongsToCompany();
+      allow create: if incomingBelongsToCompany() && isAdmin();
+      allow update, delete: if belongsToCompany() && isAdmin();
+    }
+
+    // --- TRANSACTIONS (Invoices) ---
+    match /invoices/{docId} {
+      allow read: if belongsToCompany();
+      allow create: if incomingBelongsToCompany();
+      allow update: if belongsToCompany(); // Staff can edit
+      allow delete: if belongsToCompany() && isAdmin();
+    }
+  }
+}
