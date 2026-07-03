@@ -1,72 +1,72 @@
-// js/invoice.js - Sprint 3 Pure Calculation Engine Patched
-// Zero DOM Access. 100% Testable isolated math.
+export function calculateInvoiceData(itemsData, billingState) {
+    let totalTaxable = 0;
+    let totalDiscount = 0;
+    let totalCgst = 0;
+    let totalSgst = 0;
+    let totalIgst = 0;
+    let totalTaxAmount = 0;
+    let grandTotal = 0;
+    let maxGstRate = 0;
 
-export function calculateInvoiceData(items, billingState) {
-    if (billingState !== 'inter' && billingState !== 'intra') {
-        console.warn(`[invoice.js] Unknown billingState: "${billingState}" — defaulting to intra`);
-        billingState = 'intra';
-    }
+    const itemsMath = itemsData.map(item => {
+        const rate = parseFloat(item.rate) || 0;
+        const qty = parseFloat(item.qty) || 1;
+        const disc = parseFloat(item.disc) || 0;
+        const gstRate = parseFloat(item.gst) || 0;
 
-    let rawTaxableSum = 0;
-    let discountSum = 0;
-    let cgstSum = 0;
-    let sgstSum = 0;
-    let igstSum = 0;
-    let totalOverallSum = 0;
-    let gstRatesSet = new Set();
+        if (gstRate > maxGstRate) maxGstRate = gstRate;
 
-    const calculatedItems = items.map(item => {
-        const rate = item.rate || 0;
-        const qty = item.qty || 1; 
-        const disc = item.disc || 0; 
-        const gstRate = item.gst || 0;
+        const baseAmount = rate * qty;
+        const taxableAmount = Math.max(0, baseAmount - disc);
 
-        // ✅ FIX 1: Negative Base Value Trap Fixed via Math.max Clamp
-        const baseAmount = Math.max(0, (rate * qty) - disc);
-
-        if (baseAmount > 0) gstRatesSet.add(gstRate);
-
-        let rowIgst = 0, rowCgst = 0, rowSgst = 0;
+        let rowCgst = 0;
+        let rowSgst = 0;
+        let rowIgst = 0;
+        let rowTax = 0;
 
         if (billingState === 'inter') {
-            rowIgst = baseAmount * (gstRate / 100);
+            rowIgst = taxableAmount * (gstRate / 100);
+            rowTax = rowIgst;
         } else {
-            rowCgst = baseAmount * ((gstRate / 2) / 100);
-            rowSgst = baseAmount * ((gstRate / 2) / 100);
+            const halfGst = gstRate / 2;
+            rowCgst = taxableAmount * (halfGst / 100);
+            rowSgst = taxableAmount * (halfGst / 100);
+            rowTax = rowCgst + rowSgst;
         }
 
-        const finalRowValue = baseAmount + rowIgst + rowCgst + rowSgst;
+        const finalRowValue = taxableAmount + rowTax;
 
-        rawTaxableSum += baseAmount;
-        discountSum += disc;
-        cgstSum += rowCgst;
-        sgstSum += rowSgst;
-        igstSum += rowIgst;
-        totalOverallSum += finalRowValue;
+        totalTaxable += taxableAmount;
+        totalDiscount += disc;
+        totalCgst += rowCgst;
+        totalSgst += rowSgst;
+        totalIgst += rowIgst;
+        totalTaxAmount += rowTax;
+        grandTotal += finalRowValue;
 
         return {
-            rowCgst: Math.round(rowCgst * 100) / 100,
-            rowSgst: Math.round(rowSgst * 100) / 100,
-            rowIgst: Math.round(rowIgst * 100) / 100,
-            finalRowValue: Math.round(finalRowValue * 100) / 100
+            taxableAmount,
+            rowCgst,
+            rowSgst,
+            rowIgst,
+            rowTax,
+            finalRowValue
         };
     });
 
-    let displayRate = "0%";
-    if (gstRatesSet.size > 1) displayRate = "Multiple";
-    else if (gstRatesSet.size === 1) displayRate = [...gstRatesSet][0] + "%";
+    const roundedGrandTotal = Math.round(grandTotal);
 
     return {
-        itemsMath: calculatedItems,
+        itemsMath,
         totals: {
-            taxable: Math.round(rawTaxableSum * 100) / 100,
-            discount: Math.round(discountSum * 100) / 100,
-            cgstSum: Math.round(cgstSum * 100) / 100,
-            sgstSum: Math.round(sgstSum * 100) / 100,
-            igstSum: Math.round(igstSum * 100) / 100,
-            tax: Math.round((cgstSum + sgstSum + igstSum) * 100) / 100,
-            grand: Math.round(totalOverallSum * 100) / 100,
-            displayRate
+            taxable: totalTaxable,
+            discount: totalDiscount,
+            cgstSum: totalCgst,
+            sgstSum: totalSgst,
+            igstSum: totalIgst,
+            tax: totalTaxAmount,
+            grand: roundedGrandTotal,
+            displayRate: maxGstRate + '%'
         }
     };
 }

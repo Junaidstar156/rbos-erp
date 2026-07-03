@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Enterprise Cloud ERP</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -25,14 +27,14 @@
         .state-inter .cgst-col { display: none; }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen font-sans p-2 md:p-8 flex flex-col items-center justify-center">
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans p-2 pb-28 md:pb-8 md:p-8 flex flex-col items-center justify-start md:justify-center">
 
     <div id="globalLoader" class="fixed inset-0 bg-slate-900 z-[200] flex flex-col items-center justify-center transition-opacity duration-300 opacity-100">
         <div class="text-4xl mb-4 animate-pulse">⚙️</div>
         <div class="text-blue-500 font-black tracking-widest text-sm animate-pulse">LOADING WORKSPACE...</div>
     </div>
 
-    <div id="authSection" class="hidden w-full max-w-md bg-slate-800 border border-slate-700 p-8 rounded-2xl shadow-2xl transition-all">
+    <div id="authSection" class="hidden w-full max-w-md bg-slate-800 border border-slate-700 p-8 rounded-2xl shadow-2xl transition-all mt-10 md:mt-0">
         <div class="text-center mb-6">
             <div class="text-3xl font-black text-blue-500 mb-1">RBOS ERP</div>
             <p class="text-xs text-slate-400 font-medium tracking-wide">Secure Enterprise Cloud</p>
@@ -41,23 +43,23 @@
         <div id="authErrorMsg" class="hidden mb-4 p-3 bg-red-500/10 border border-red-500/50 rounded-lg text-red-400 text-xs text-center font-bold"></div>
 
         <form id="loginForm" onsubmit="window.handleFirebaseLogin(event)" class="space-y-4">
-            <input type="email" id="loginEmail" required placeholder="Email Address" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 font-medium">
-            <input type="password" id="loginPassword" required placeholder="Password" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 font-medium">
-            <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-3 rounded-xl text-sm transition-all shadow-lg active:scale-98">Secure Login</button>
+            <input type="email" id="loginEmail" required placeholder="Email Address" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 font-medium min-h-[44px]">
+            <input type="password" id="loginPassword" required placeholder="Password" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 font-medium min-h-[44px]">
+            <button type="submit" id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-3 rounded-xl text-sm transition-all shadow-lg active:scale-98 min-h-[44px]">Secure Login</button>
             <div class="pt-4 mt-4 border-t border-slate-700 text-center">
                 <p class="text-xs text-slate-400 mb-2">New Business?</p>
-                <button type="button" onclick="window.toggleAuthMode('register')" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-2.5 rounded-xl text-sm transition-all">Create Company Account</button>
+                <button type="button" onclick="window.toggleAuthMode('register')" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-2.5 rounded-xl text-sm transition-all min-h-[44px]">Create Company Account</button>
             </div>
         </form>
 
         <form id="registerForm" onsubmit="window.handleFirebaseRegister(event)" class="space-y-4 hidden">
-            <input type="text" id="regCompanyName" required placeholder="Company Name *" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 font-medium">
-            <input type="text" id="regOwnerName" required placeholder="Owner Name *" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 font-medium">
-            <input type="email" id="regEmail" required placeholder="Email Address *" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 font-medium">
-            <input type="password" id="regPassword" required placeholder="Password (Min 8 chars) *" minlength="8" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 font-medium">
-            <input type="password" id="regConfirmPassword" required placeholder="Confirm Password *" minlength="8" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 font-medium">
-            <button type="submit" id="regBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3 rounded-xl text-sm transition-all shadow-lg active:scale-98">Start Using ERP</button>
-            <p class="text-center text-xs text-slate-400 mt-4">Already have a workspace? <button type="button" onclick="window.toggleAuthMode('login')" class="text-emerald-400 hover:text-emerald-300 font-bold ml-1">Secure Login</button></p>
+            <input type="text" id="regCompanyName" required placeholder="Company Name *" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 font-medium min-h-[44px]">
+            <input type="text" id="regOwnerName" required placeholder="Owner Name *" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 font-medium min-h-[44px]">
+            <input type="email" id="regEmail" required placeholder="Email Address *" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 font-medium min-h-[44px]">
+            <input type="password" id="regPassword" required placeholder="Password (Min 8 chars) *" minlength="8" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 font-medium min-h-[44px]">
+            <input type="password" id="regConfirmPassword" required placeholder="Confirm Password *" minlength="8" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-blue-500 font-medium min-h-[44px]">
+            <button type="submit" id="regBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3 rounded-xl text-sm transition-all shadow-lg active:scale-98 min-h-[44px]">Start Using ERP</button>
+            <p class="text-center text-xs text-slate-400 mt-4">Already have a workspace? <button type="button" onclick="window.toggleAuthMode('login')" class="text-emerald-400 hover:text-emerald-300 font-bold ml-1 min-h-[44px] px-2">Secure Login</button></p>
         </form>
     </div>
 
@@ -68,82 +70,148 @@
         <div class="bg-white text-slate-800 w-full max-w-lg rounded-2xl p-6 shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <h3 class="text-lg font-black text-blue-900">⚙️ Company Settings</h3>
-                <button onclick="window.toggleSettingsModal(false)" class="text-red-500 font-bold text-xl">&times;</button>
+                <button onclick="window.toggleSettingsModal(false)" class="text-red-500 font-bold text-xl min-h-[44px] min-w-[44px] flex items-center justify-center">&times;</button>
             </div>
             <form onsubmit="window.saveCompanySettings(event)" class="space-y-3">
-                <div><label class="text-xs font-bold text-slate-500">Company Name</label><input type="text" id="setCompName" required class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div>
-                <div><label class="text-xs font-bold text-slate-500">Address (Appears on Invoice)</label><textarea id="setCompAddress" rows="2" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></textarea></div>
-                <div class="flex gap-2">
-                    <div class="w-1/2"><label class="text-xs font-bold text-slate-500">GSTIN</label><input type="text" id="setCompGstin" oninput="this.value=this.value.toUpperCase()" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div>
-                    <div class="w-1/2"><label class="text-xs font-bold text-slate-500">Invoice Prefix (e.g., RFC)</label><input type="text" id="setCompPrefix" required oninput="this.value=this.value.toUpperCase()" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm font-mono font-bold text-blue-800"></div>
+                <div><label class="text-xs font-bold text-slate-500">Company Name</label><input type="text" id="setCompName" required class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div>
+                <div><label class="text-xs font-bold text-slate-500">Address (Appears on Invoice)</label><textarea id="setCompAddress" rows="2" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></textarea></div>
+                <div class="flex flex-col md:flex-row gap-2 md:gap-2">
+                    <div class="w-full md:w-1/2"><label class="text-xs font-bold text-slate-500">GSTIN</label><input type="text" id="setCompGstin" oninput="this.value=this.value.toUpperCase()" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div>
+                    <div class="w-full md:w-1/2"><label class="text-xs font-bold text-slate-500">Invoice Prefix (e.g., RFC)</label><input type="text" id="setCompPrefix" required oninput="this.value=this.value.toUpperCase()" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm font-mono font-bold text-blue-800 min-h-[44px] md:min-h-0"></div>
                 </div>
-                <div class="flex gap-2">
-                    <div class="w-1/2"><label class="text-xs font-bold text-slate-500">Mobile</label><input type="text" id="setCompMob" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div>
-                    <div class="w-1/2"><label class="text-xs font-bold text-slate-500">Email</label><input type="email" id="setCompEmail" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div>
+                <div class="flex flex-col md:flex-row gap-2 md:gap-2">
+                    <div class="w-full md:w-1/2"><label class="text-xs font-bold text-slate-500">Mobile</label><input type="text" id="setCompMob" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div>
+                    <div class="w-full md:w-1/2"><label class="text-xs font-bold text-slate-500">Email</label><input type="email" id="setCompEmail" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div>
                 </div>
-                <button type="submit" id="saveSettingsBtn" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg mt-2">Save Settings</button>
+                <button type="submit" id="saveSettingsBtn" class="w-full bg-blue-600 text-white font-bold py-3 md:py-2 rounded-lg mt-2 min-h-[44px]">Save Settings</button>
             </form>
         </div>
     </div>
 
-    <div id="productModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-4"><div class="bg-white text-slate-800 w-full max-w-md rounded-2xl p-6 shadow-2xl"><div class="flex justify-between items-center mb-4 border-b pb-2"><h3 class="text-lg font-black text-blue-900">📦 Product Master</h3><button onclick="window.toggleProductModal(false)" class="text-red-500 font-bold text-xl">&times;</button></div><form id="productMasterForm" onsubmit="window.saveProductToMaster(event)" class="space-y-3"><div><label class="text-xs font-bold text-slate-500">Product Name</label><input type="text" id="prodDesc" required class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div><div class="flex gap-2"><div class="w-1/2"><label class="text-xs font-bold text-slate-500">Quality / Brand</label><input type="text" id="prodQuality" placeholder="e.g. Domestic" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div><div class="w-1/2"><label class="text-xs font-bold text-slate-500">HSN / SAC</label><input type="text" id="prodHsn" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div></div><div class="flex gap-2"><div class="w-1/3"><label class="text-xs font-bold text-slate-500">Rate (₹)</label><input type="number" min="0" id="prodRate" required class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div><div class="w-1/3"><label class="text-xs font-bold text-slate-500">Unit</label><select id="prodUnit" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"><option value="PCS" selected>PCS</option><option value="BOX">BOX</option><option value="KG">KG</option><option value="MTR">MTR</option><option value="LTR">LTR</option><option value="PAIR">PAIR</option><option value="NOS">NOS</option><option value="SET">SET</option><option value="ROLL">ROLL</option></select></div><div class="w-1/3"><label class="text-xs font-bold text-slate-500">GST %</label><select id="prodGst" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div></div><button type="submit" id="saveProdBtn" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg mt-2">Save Product</button><button type="button" onclick="window.deleteProductFromMaster()" class="w-full bg-red-100 text-red-600 hover:bg-red-200 font-bold py-2 rounded-lg text-sm transition-all">Delete Product</button></form></div></div>
+    <div id="productModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-4"><div class="bg-white text-slate-800 w-full max-w-md rounded-2xl p-6 shadow-2xl"><div class="flex justify-between items-center mb-4 border-b pb-2"><h3 class="text-lg font-black text-blue-900">📦 Product Master</h3><button onclick="window.toggleProductModal(false)" class="text-red-500 font-bold text-xl min-w-[44px] min-h-[44px]">&times;</button></div><form id="productMasterForm" onsubmit="window.saveProductToMaster(event)" class="space-y-3"><div><label class="text-xs font-bold text-slate-500">Product Name</label><input type="text" id="prodDesc" required class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div><div class="flex flex-col md:flex-row gap-2"><div class="w-full md:w-1/2"><label class="text-xs font-bold text-slate-500">Quality / Brand</label><input type="text" id="prodQuality" placeholder="e.g. Domestic" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div><div class="w-full md:w-1/2"><label class="text-xs font-bold text-slate-500">HSN / SAC</label><input type="text" id="prodHsn" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div></div><div class="flex flex-col md:flex-row gap-2"><div class="w-full md:w-1/3"><label class="text-xs font-bold text-slate-500">Rate (₹)</label><input type="number" min="0" id="prodRate" required class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div><div class="w-full md:w-1/3"><label class="text-xs font-bold text-slate-500">Unit</label><select id="prodUnit" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"><option value="PCS" selected>PCS</option><option value="BOX">BOX</option><option value="KG">KG</option><option value="MTR">MTR</option><option value="LTR">LTR</option><option value="PAIR">PAIR</option><option value="NOS">NOS</option><option value="SET">SET</option><option value="ROLL">ROLL</option></select></div><div class="w-full md:w-1/3"><label class="text-xs font-bold text-slate-500">GST %</label><select id="prodGst" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div></div><button type="submit" id="saveProdBtn" class="w-full bg-blue-600 text-white font-bold py-3 md:py-2 rounded-lg mt-2 min-h-[44px]">Save Product</button><button type="button" onclick="window.deleteProductFromMaster()" class="w-full bg-red-100 text-red-600 hover:bg-red-200 font-bold py-3 md:py-2 rounded-lg text-sm transition-all min-h-[44px]">Delete Product</button></form></div></div>
 
-    <div id="partyModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-4"><div class="bg-white text-slate-800 w-full max-w-md rounded-2xl p-6 shadow-2xl"><div class="flex justify-between items-center mb-4 border-b pb-2"><h3 class="text-lg font-black text-blue-900">👥 Party Master</h3><button onclick="window.togglePartyModal(false)" class="text-red-500 font-bold text-xl">&times;</button></div><form id="partyMasterForm" onsubmit="window.savePartyToMaster(event)" class="space-y-3"><div><label class="text-xs font-bold text-slate-500">Party Name *</label><input type="text" id="partyNameModal" required class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div><div><label class="text-xs font-bold text-slate-500">Address</label><textarea id="partyAddrModal" rows="2" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></textarea></div><div class="flex gap-2"><div class="w-1/2"><label class="text-xs font-bold text-slate-500">GSTIN</label><input type="text" id="partyGstinModal" oninput="this.value=this.value.toUpperCase()" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div><div class="w-1/2"><label class="text-xs font-bold text-slate-500">PAN</label><input type="text" id="partyPanModal" oninput="this.value=this.value.toUpperCase()" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div></div><div class="flex gap-2"><div class="w-1/2"><label class="text-xs font-bold text-slate-500">Mobile</label><input type="text" id="partyMobModal" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div><div class="w-1/2"><label class="text-xs font-bold text-slate-500">Email</label><input type="email" id="partyEmailModal" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div></div><button type="submit" id="savePartyBtn" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg mt-2">Save Party</button><button type="button" onclick="window.deletePartyFromMaster()" class="w-full bg-red-100 text-red-600 hover:bg-red-200 font-bold py-2 rounded-lg text-sm transition-all">Delete Party</button></form></div></div>
+    <div id="partyModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-4"><div class="bg-white text-slate-800 w-full max-w-md rounded-2xl p-6 shadow-2xl overflow-y-auto max-h-[90vh]"><div class="flex justify-between items-center mb-4 border-b pb-2"><h3 class="text-lg font-black text-blue-900">👥 Party Master</h3><button onclick="window.togglePartyModal(false)" class="text-red-500 font-bold text-xl min-w-[44px] min-h-[44px]">&times;</button></div><form id="partyMasterForm" onsubmit="window.savePartyToMaster(event)" class="space-y-3"><div><label class="text-xs font-bold text-slate-500">Party Name *</label><input type="text" id="partyNameModal" required class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div><div><label class="text-xs font-bold text-slate-500">Address</label><textarea id="partyAddrModal" rows="2" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></textarea></div><div class="flex flex-col md:flex-row gap-2"><div class="w-full md:w-1/2"><label class="text-xs font-bold text-slate-500">GSTIN</label><input type="text" id="partyGstinModal" oninput="this.value=this.value.toUpperCase()" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div><div class="w-full md:w-1/2"><label class="text-xs font-bold text-slate-500">PAN</label><input type="text" id="partyPanModal" oninput="this.value=this.value.toUpperCase()" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div></div><div class="flex flex-col md:flex-row gap-2"><div class="w-full md:w-1/2"><label class="text-xs font-bold text-slate-500">Mobile</label><input type="text" id="partyMobModal" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div><div class="w-full md:w-1/2"><label class="text-xs font-bold text-slate-500">Email</label><input type="email" id="partyEmailModal" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div></div><button type="submit" id="savePartyBtn" class="w-full bg-blue-600 text-white font-bold py-3 md:py-2 rounded-lg mt-2 min-h-[44px]">Save Party</button><button type="button" onclick="window.deletePartyFromMaster()" class="w-full bg-red-100 text-red-600 hover:bg-red-200 font-bold py-3 md:py-2 rounded-lg text-sm transition-all min-h-[44px]">Delete Party</button></form></div></div>
     
-    <div id="bankModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-4"><div class="bg-white text-slate-800 w-full max-w-md rounded-2xl p-6 shadow-2xl"><div class="flex justify-between items-center mb-4 border-b pb-2"><h3 class="text-lg font-black text-blue-900">🏦 Bank Master</h3><button onclick="window.toggleBankModal(false)" class="text-red-500 font-bold text-xl">&times;</button></div><form id="bankMasterForm" onsubmit="window.saveBankToMaster(event)" class="space-y-3"><div><label class="text-xs font-bold text-slate-500">Label (e.g. AXIS MAIN) *</label><input type="text" id="bankLabelModal" required oninput="this.value=this.value.toUpperCase()" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm font-bold"></div><div><label class="text-xs font-bold text-slate-500">Bank Name</label><input type="text" id="bankNameModal" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div><div><label class="text-xs font-bold text-slate-500">Account Number</label><input type="text" id="bankAccModal" required class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div><div class="flex gap-2"><div class="w-1/2"><label class="text-xs font-bold text-slate-500">IFSC Code</label><input type="text" id="bankIfscModal" oninput="this.value=this.value.toUpperCase()" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div><div class="w-1/2"><label class="text-xs font-bold text-slate-500">MICR Code</label><input type="text" id="bankMicrModal" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div></div><div><label class="text-xs font-bold text-slate-500">Branch</label><input type="text" id="bankBranchModal" class="w-full border rounded px-2 py-1 outline-none focus:border-blue-500 text-sm"></div><button type="submit" id="saveBankBtn" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg mt-2">Save Bank</button><button type="button" onclick="window.deleteBankFromMaster()" class="w-full bg-red-100 text-red-600 hover:bg-red-200 font-bold py-2 rounded-lg text-sm transition-all">Delete Bank</button></form></div></div>
+    <div id="bankModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-4"><div class="bg-white text-slate-800 w-full max-w-md rounded-2xl p-6 shadow-2xl overflow-y-auto max-h-[90vh]"><div class="flex justify-between items-center mb-4 border-b pb-2"><h3 class="text-lg font-black text-blue-900">🏦 Bank Master</h3><button onclick="window.toggleBankModal(false)" class="text-red-500 font-bold text-xl min-w-[44px] min-h-[44px]">&times;</button></div><form id="bankMasterForm" onsubmit="window.saveBankToMaster(event)" class="space-y-3"><div><label class="text-xs font-bold text-slate-500">Label (e.g. AXIS MAIN) *</label><input type="text" id="bankLabelModal" required oninput="this.value=this.value.toUpperCase()" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm font-bold min-h-[44px] md:min-h-0"></div><div><label class="text-xs font-bold text-slate-500">Bank Name</label><input type="text" id="bankNameModal" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div><div><label class="text-xs font-bold text-slate-500">Account Number</label><input type="text" id="bankAccModal" required class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div><div class="flex flex-col md:flex-row gap-2"><div class="w-full md:w-1/2"><label class="text-xs font-bold text-slate-500">IFSC Code</label><input type="text" id="bankIfscModal" oninput="this.value=this.value.toUpperCase()" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div><div class="w-full md:w-1/2"><label class="text-xs font-bold text-slate-500">MICR Code</label><input type="text" id="bankMicrModal" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div></div><div><label class="text-xs font-bold text-slate-500">Branch</label><input type="text" id="bankBranchModal" class="w-full border rounded px-2 py-2 md:py-1 outline-none focus:border-blue-500 text-sm min-h-[44px] md:min-h-0"></div><button type="submit" id="saveBankBtn" class="w-full bg-blue-600 text-white font-bold py-3 md:py-2 rounded-lg mt-2 min-h-[44px]">Save Bank</button><button type="button" onclick="window.deleteBankFromMaster()" class="w-full bg-red-100 text-red-600 hover:bg-red-200 font-bold py-3 md:py-2 rounded-lg text-sm transition-all min-h-[44px]">Delete Bank</button></form></div></div>
 
     <div id="appDashboardSection" class="w-full max-w-4xl hidden transition-all">
-        <div class="no-print w-full flex flex-col md:flex-row justify-between items-center mb-4 bg-slate-800/80 border border-slate-700/60 rounded-2xl p-4 shadow-xl gap-4">
-            <div><h1 class="text-lg font-black text-white">ERP Engine 20.1</h1><p class="text-xs text-emerald-400 font-mono font-bold">⚙️ SPRINT 6C: Multi-Tenant Live</p></div>
-            <div class="flex flex-wrap gap-2 justify-center">
-                <button onclick="window.confirmFreshInvoice()" class="bg-amber-600 hover:bg-amber-500 text-white font-bold py-1.5 px-3 rounded-lg text-xs shadow">🆕 New / Clear</button>
-                <button onclick="window.toggleProductModal(true)" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-1.5 px-3 rounded-lg text-xs shadow">📦 Products</button>
-                <button onclick="window.togglePartyModal(true)" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-1.5 px-3 rounded-lg text-xs shadow">👥 Parties</button>
-                <button onclick="window.toggleBankModal(true)" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-1.5 px-3 rounded-lg text-xs shadow">🏦 Banks</button>
-                <button onclick="window.toggleSettingsModal(true)" class="bg-slate-600 hover:bg-slate-500 text-white font-bold py-1.5 px-3 rounded-lg text-xs shadow border border-slate-500">⚙️ Settings</button>
-                <button onclick="window.handleFirebaseLogout()" class="bg-red-600/20 hover:bg-red-600 border border-red-700 text-red-200 hover:text-white font-bold py-1.5 px-3 rounded-lg text-xs">Logout 🚪</button>
+        
+        <!-- SPRINT 7.6: COMPACT NAVBAR -->
+        <div class="no-print w-full flex flex-col md:flex-row justify-between items-center mb-3 bg-slate-800/80 border border-slate-700/60 rounded-xl p-3 shadow-lg gap-3">
+            <div class="text-center md:text-left">
+                <h1 class="text-base font-black text-white tracking-wide">ERP Engine 20.1</h1>
+                <p class="text-[10px] text-emerald-400 font-mono font-bold tracking-widest">⚙️ SPRINT 8A: MOBILE FIRST</p>
+            </div>
+            <div class="flex flex-wrap gap-2 justify-center items-center">
+                <!-- Master Modules -->
+                <button onclick="window.toggleProductModal(true)" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 md:py-1.5 px-4 rounded-lg text-sm md:text-xs shadow transition-all min-h-[44px] md:min-h-0">📦 Products</button>
+                <button onclick="window.togglePartyModal(true)" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 md:py-1.5 px-4 rounded-lg text-sm md:text-xs shadow transition-all min-h-[44px] md:min-h-0">👥 Parties</button>
+                <button onclick="window.toggleBankModal(true)" class="bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 md:py-1.5 px-4 rounded-lg text-sm md:text-xs shadow transition-all min-h-[44px] md:min-h-0">🏦 Banks</button>
+                
+                <!-- Settings Dropdown -->
+                <div class="relative group inline-block">
+                    <button class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 md:py-1.5 px-4 rounded-lg text-sm md:text-xs shadow border border-slate-600 transition-all flex items-center gap-1.5 cursor-pointer min-h-[44px] md:min-h-0">
+                        ⚙️ Settings <span class="text-[9px] opacity-70">▼</span>
+                    </button>
+                    <div class="absolute right-0 mt-1 w-48 bg-slate-800 border border-slate-600 rounded-xl shadow-2xl hidden group-hover:flex flex-col z-[100] overflow-hidden">
+                        <button onclick="window.toggleSettingsModal(true)" class="text-left px-4 py-3 md:py-2.5 text-xs font-bold text-slate-200 hover:bg-slate-700 hover:text-white border-b border-slate-700/50 transition-colors min-h-[44px] md:min-h-0">🏢 Company Profile</button>
+                        <button id="navTeamMgmtBtn" onclick="window.scrollToUserManagement()" class="text-left px-4 py-3 md:py-2.5 text-xs font-bold text-slate-200 hover:bg-slate-700 hover:text-white border-b border-slate-700/50 transition-colors min-h-[44px] md:min-h-0">👥 Team Access</button>
+                        <button id="navAuditLogBtn" onclick="window.scrollToAuditLogs()" class="text-left px-4 py-3 md:py-2.5 text-xs font-bold text-slate-200 hover:bg-slate-700 hover:text-white border-b border-slate-700/50 transition-colors min-h-[44px] md:min-h-0">📜 Activity Log</button>
+                        <button onclick="window.handleFirebaseLogout()" class="text-left px-4 py-3 md:py-2.5 text-xs font-bold text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-colors min-h-[44px] md:min-h-0">🚪 Secure Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SPRINT 8A: ULTRA-COMPACT DASHBOARD -->
+        <div id="topDashboardModule" class="no-print w-full mb-4 space-y-2">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                <div class="bg-slate-800/90 border border-slate-700 rounded-xl p-2 md:p-2.5 shadow-md relative overflow-hidden flex flex-col justify-between">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-sans">Total Invoices</span>
+                    <div id="dash-tot-inv" class="text-base md:text-lg font-black text-white mt-0.5 font-mono">0</div>
+                    <div class="absolute -bottom-1 -right-1 text-slate-700/30 text-3xl font-black select-none pointer-events-none">🧾</div>
+                </div>
+                <div class="bg-slate-800/90 border border-slate-700 rounded-xl p-2 md:p-2.5 shadow-md relative overflow-hidden flex flex-col justify-between">
+                    <span class="text-[10px] font-bold text-blue-400 uppercase tracking-wider font-sans">This Month</span>
+                    <div id="dash-month-inv" class="text-base md:text-lg font-black text-blue-300 mt-0.5 font-mono">0</div>
+                    <div class="absolute -bottom-1 -right-1 text-blue-900/20 text-3xl font-black select-none pointer-events-none">📅</div>
+                </div>
+                <div class="bg-slate-800/90 border border-slate-700 rounded-xl p-2 md:p-2.5 shadow-md relative overflow-hidden flex flex-col justify-between">
+                    <span class="text-[10px] font-bold text-purple-400 uppercase tracking-wider font-sans">Customers</span>
+                    <div id="dash-tot-cust" class="text-base md:text-lg font-black text-purple-300 mt-0.5 font-mono">0</div>
+                    <div class="absolute -bottom-1 -right-1 text-purple-900/20 text-3xl font-black select-none pointer-events-none">👥</div>
+                </div>
+                <div class="bg-slate-800/90 border border-slate-700 rounded-xl p-2 md:p-2.5 shadow-md relative overflow-hidden flex flex-col justify-between">
+                    <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider font-sans">Products</span>
+                    <div id="dash-tot-prod" class="text-base md:text-lg font-black text-emerald-300 mt-0.5 font-mono">0</div>
+                    <div class="absolute -bottom-1 -right-1 text-emerald-900/20 text-3xl font-black select-none pointer-events-none">📦</div>
+                </div>
+                <div class="col-span-2 md:col-span-1 bg-slate-800/90 border border-slate-700 rounded-xl p-2 md:p-2.5 shadow-md relative overflow-hidden flex flex-col justify-between">
+                    <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider font-sans">Bank Accounts</span>
+                    <div id="dash-tot-banks" class="text-base md:text-lg font-black text-amber-300 mt-0.5 font-mono">0</div>
+                    <div class="absolute -bottom-1 -right-1 text-amber-900/20 text-3xl font-black select-none pointer-events-none">🏦</div>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-2 md:p-2.5 shadow-md">
+                <div class="flex justify-between items-center mb-1.5 border-b border-slate-700/60 pb-1 font-sans">
+                    <h3 class="text-[10px] font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Recent Activity
+                    </h3>
+                    <span class="text-[9px] font-mono text-slate-500">Latest 5 Invoices</span>
+                </div>
+                <div id="dash-activity-feed" class="space-y-1 max-h-24 overflow-y-auto pr-1 divide-y divide-slate-700/40 font-mono text-[10px]">
+                    <div class="py-2 text-center text-slate-500 font-sans text-xs">⚡ Loading business activity...</div>
+                </div>
             </div>
         </div>
 
         <div id="invoiceCoreContainer" class="print-container state-intra bg-white text-slate-800 border border-slate-200 w-full rounded-2xl shadow-2xl p-4 md:p-8 transition-all">
-            <div class="flex flex-row justify-between items-start border-b-4 border-blue-950 pb-6 gap-2">
-                <div class="w-7/12">
-                    <h1 id="headerCompanyName" class="text-xl md:text-2xl font-black text-blue-900 bg-transparent px-2 py-0.5 outline-none w-full font-sans cursor-default uppercase">COMPANY NAME</h1>
-                    <div id="headerAddress" class="text-[10px] md:text-xs text-slate-600 mt-2 space-y-0.5 font-medium px-2 whitespace-pre-line">Loading Address...</div>
+            
+            <!-- SPRINT 8A: INVOICE HEADER (Single column on mobile) -->
+            <div class="flex flex-col md:flex-row justify-between items-start border-b-4 border-blue-950 pb-4 md:pb-6 gap-4 md:gap-2">
+                <div class="w-full md:w-7/12">
+                    <h1 id="headerCompanyName" class="text-xl md:text-2xl font-black text-blue-900 bg-transparent px-2 py-0.5 outline-none w-full font-sans cursor-default uppercase text-center md:text-left">COMPANY NAME</h1>
+                    <div id="headerAddress" class="text-[10px] md:text-xs text-slate-600 mt-2 space-y-0.5 font-medium px-2 whitespace-pre-line text-center md:text-left">Loading Address...</div>
                 </div>
-                <div class="w-5/12 text-right flex flex-col items-end">
+                <div class="w-full md:w-5/12 md:text-right flex flex-col items-center md:items-end">
                     <h2 class="text-xl md:text-3xl font-black text-blue-900 tracking-wider">TAX INVOICE</h2>
-                    <div class="mt-3 space-y-1 text-[10px] md:text-xs font-mono font-bold text-slate-700">
-                        <div>INVOICE DATE : <input type="date" id="invDate" class="bg-slate-50 border border-slate-300 outline-none w-28 text-right px-1 py-0.5 rounded"></div>
-                        <div>INVOICE NO : <input type="text" id="invNo" class="bg-slate-50 border border-transparent outline-none w-24 text-right px-1 py-0.5 rounded"></div>
-                        <div>CUSTOMER ID : <input type="text" id="custId" class="bg-slate-50 border border-transparent outline-none w-24 text-right px-1 py-0.5 rounded"></div>
-                        <div>DUE DATE : <input type="date" id="dueDate" class="bg-slate-50 border border-slate-300 outline-none w-28 text-right px-1 py-0.5 rounded"></div>
+                    <!-- Single Column on mobile via flex-col -->
+                    <div class="mt-3 flex flex-col md:block gap-2 space-y-0 md:space-y-1 text-xs font-mono font-bold text-slate-700 w-full md:w-auto">
+                        <div class="flex justify-between md:inline-block items-center"><span>INVOICE DATE :</span> <input type="date" id="invDate" class="bg-slate-50 border border-slate-300 outline-none w-32 md:w-28 text-right px-2 md:px-1 py-2 md:py-0.5 rounded min-h-[44px] md:min-h-0"></div>
+                        <div class="flex justify-between md:inline-block items-center"><span>INVOICE NO :</span> <input type="text" id="invNo" class="bg-slate-50 border border-transparent outline-none w-32 md:w-24 text-right px-2 md:px-1 py-2 md:py-0.5 rounded min-h-[44px] md:min-h-0 text-base md:text-xs"></div>
+                        <div class="flex justify-between md:inline-block items-center"><span>CUSTOMER ID :</span> <input type="text" id="custId" class="bg-slate-50 border border-transparent outline-none w-32 md:w-24 text-right px-2 md:px-1 py-2 md:py-0.5 rounded min-h-[44px] md:min-h-0 text-base md:text-xs"></div>
+                        <div class="flex justify-between md:inline-block items-center"><span>DUE DATE :</span> <input type="date" id="dueDate" class="bg-slate-50 border border-slate-300 outline-none w-32 md:w-28 text-right px-2 md:px-1 py-2 md:py-0.5 rounded min-h-[44px] md:min-h-0"></div>
                     </div>
                 </div>
             </div>
 
+            <!-- SPRINT 8A: CUSTOMER DETAILS (Single column on mobile) -->
             <div class="my-4 p-3 bg-blue-50/60 rounded-xl border border-blue-100 flex flex-col md:flex-row justify-between gap-4 text-xs">
-                <div class="w-full md:w-1/2 space-y-1">
-                    <div class="no-print flex items-center gap-2 mb-2 bg-yellow-100/50 p-1.5 rounded-lg border border-yellow-200">
-                        <span class="font-bold text-slate-600">Select Party:</span>
-                        <select id="partySelectMaster" onchange="window.handlePartySelection()" class="flex-1 bg-white border border-slate-300 rounded px-1 py-1 outline-none text-blue-900 font-bold"><option value="">-- Select Party --</option></select>
-                        <button onclick="window.togglePartyModal(true)" class="bg-purple-600 text-white px-2 py-1 rounded shadow">+ New</button>
+                <div class="w-full md:w-1/2 flex flex-col gap-2 md:space-y-1">
+                    <div class="no-print flex items-center gap-2 mb-2 bg-yellow-100/50 p-2 md:p-1.5 rounded-lg border border-yellow-200">
+                        <span class="font-bold text-slate-600 hidden md:inline">Select Party:</span>
+                        <select id="partySelectMaster" onchange="window.handlePartySelection()" class="flex-1 bg-white border border-slate-300 rounded px-2 py-2 md:py-1 outline-none text-blue-900 font-bold min-h-[44px] md:min-h-0 text-sm md:text-xs"><option value="">-- Select Party --</option></select>
+                        <button onclick="window.togglePartyModal(true)" class="bg-purple-600 text-white px-4 md:px-2 py-2 md:py-1 rounded shadow font-bold min-h-[44px] md:min-h-0 active:scale-95">+ New</button>
                     </div>
-                    <div class="flex items-center gap-2 mb-1"><span class="font-black text-blue-900 uppercase">BILL TO:</span><input type="text" id="clientName" placeholder="Client Name" class="font-bold text-slate-900 bg-transparent border-b border-transparent hover:border-slate-300 outline-none py-0.5 flex-1"></div>
-                    <textarea id="clientAddress" rows="2" placeholder="Address..." class="w-full bg-transparent outline-none p-1 border border-transparent hover:border-slate-300 rounded resize-none text-slate-600 font-medium"></textarea>
+                    <div class="flex items-center gap-2 mb-1"><span class="font-black text-blue-900 uppercase">BILL TO:</span><input type="text" id="clientName" placeholder="Client Name" class="font-bold text-slate-900 bg-transparent border-b border-transparent hover:border-slate-300 outline-none py-2 md:py-0.5 flex-1 min-h-[44px] md:min-h-0 text-sm md:text-xs"></div>
+                    <textarea id="clientAddress" rows="2" placeholder="Address..." class="w-full bg-transparent outline-none p-2 md:p-1 border border-transparent hover:border-slate-300 rounded resize-none text-slate-600 font-medium min-h-[44px] md:min-h-0 text-sm md:text-xs"></textarea>
                 </div>
-                <div class="w-full md:w-1/3 space-y-1 font-mono font-bold text-slate-700 md:text-right flex flex-col justify-end">
-                    <div class="mb-1 text-blue-900">STATE TYPE: <select id="billingState" onchange="window.calculateInvoiceCoreValues()" class="bg-transparent border-b font-bold outline-none border-blue-300"><option value="intra">Intra-state (Local/UP)</option><option value="inter">Inter-state (IGST)</option></select></div>
-                    <div>GSTIN: <input type="text" id="clientGstin" oninput="this.value=this.value.toUpperCase()" class="bg-transparent outline-none text-slate-900 px-1 w-40 text-left md:text-right border-b border-transparent hover:border-slate-300"></div>
-                    <div>PAN: <input type="text" id="clientPan" oninput="this.value=this.value.toUpperCase()" class="bg-transparent outline-none text-slate-900 px-1 w-40 text-left md:text-right border-b border-transparent hover:border-slate-300"></div>
-                    <div>MOB: <input type="text" id="clientMob" class="bg-transparent outline-none text-slate-900 px-1 w-40 text-left md:text-right border-b border-transparent hover:border-slate-300"></div>
+                <div class="w-full md:w-1/3 flex flex-col gap-3 md:space-y-1 font-mono font-bold text-slate-700 md:text-right justify-end">
+                    <div class="mb-1 text-blue-900 flex justify-between md:inline-block items-center"><span>STATE TYPE:</span> <select id="billingState" onchange="window.calculateInvoiceCoreValues()" class="bg-transparent border-b font-bold outline-none border-blue-300 min-h-[44px] md:min-h-0 text-sm md:text-xs"><option value="intra">Intra-state (Local/UP)</option><option value="inter">Inter-state (IGST)</option></select></div>
+                    <div class="flex justify-between md:inline-block items-center"><span>GSTIN:</span> <input type="text" id="clientGstin" oninput="this.value=this.value.toUpperCase()" class="bg-transparent outline-none text-slate-900 px-2 md:px-1 w-44 md:w-40 text-right border-b border-transparent hover:border-slate-300 min-h-[44px] md:min-h-0 text-sm md:text-xs"></div>
+                    <div class="flex justify-between md:inline-block items-center"><span>PAN:</span> <input type="text" id="clientPan" oninput="this.value=this.value.toUpperCase()" class="bg-transparent outline-none text-slate-900 px-2 md:px-1 w-44 md:w-40 text-right border-b border-transparent hover:border-slate-300 min-h-[44px] md:min-h-0 text-sm md:text-xs"></div>
+                    <div class="flex justify-between md:inline-block items-center"><span>MOB:</span> <input type="text" id="clientMob" class="bg-transparent outline-none text-slate-900 px-2 md:px-1 w-44 md:w-40 text-right border-b border-transparent hover:border-slate-300 min-h-[44px] md:min-h-0 text-sm md:text-xs"></div>
                 </div>
             </div>
 
-            <div class="overflow-x-auto mt-4">
-                <table class="w-full text-left border-collapse border border-slate-300">
-                    <thead>
-                        <tr class="text-[10px] md:text-[11px] font-bold uppercase tracking-wider border-b border-slate-300 text-white">
+            <!-- SPRINT 8A: MOBILE CARD LAYOUT / DESKTOP TABLE -->
+            <div class="mt-6 md:mt-4">
+                <table class="w-full text-left border-collapse border-transparent md:border-slate-300 block md:table">
+                    <!-- Hide Thead on Mobile -->
+                    <thead class="hidden md:table-header-group">
+                        <tr class="text-[11px] font-bold uppercase tracking-wider border-b border-slate-300 text-white">
                             <th class="custom-header-style py-2.5 px-1 border-r border-blue-800 text-center w-[4%]">Sr.</th>
                             <th class="custom-header-style py-2.5 px-3 border-r border-blue-800 w-[24%]">DESCRIPTION</th>
                             <th class="custom-header-style py-2.5 px-1 border-r border-blue-800 text-center w-[9%]">HSN/SAC</th>
@@ -159,8 +227,9 @@
                             <th class="custom-header-style py-2.5 px-1 text-center w-[4%] no-print">Action</th>
                         </tr>
                     </thead>
-                    <tbody id="invoiceTableBody" class="text-[11px] md:text-xs text-slate-800 font-mono font-medium"></tbody>
-                    <tfoot>
+                    <tbody id="invoiceTableBody" class="text-xs text-slate-800 font-mono font-medium block md:table-row-group"></tbody>
+                    <!-- Desktop Footer Totals -->
+                    <tfoot class="hidden md:table-footer-group">
                         <tr class="bg-slate-100 font-bold border-b-2 border-slate-400 text-slate-900 text-[11px]">
                             <td colspan="5" class="py-2 px-3 border-r border-slate-300 text-center uppercase tracking-wide">Totals</td><td id="totalRateSum" class="py-2 px-2 border-r border-slate-300 text-right text-blue-900 w-[10%]">₹0.00</td><td id="totalDiscountSum" class="py-2 px-1 border-r border-slate-300 text-right text-red-600 w-[8%]">₹0.00</td><td class="py-2 px-1 border-r border-slate-300 w-[6%]"></td><td id="totalCgstSum" class="cgst-col py-2 px-1 border-r border-slate-300 text-right text-slate-700 w-[8%]">₹0.00</td><td id="totalSgstSum" class="cgst-col py-2 px-1 border-r border-slate-300 text-right text-slate-700 w-[8%]">₹0.00</td><td id="totalIgstSum" class="igst-col py-2 px-1 border-r border-slate-300 text-right text-slate-700 w-[16%]">₹0.00</td><td id="totalGrandSum" class="py-2 px-2 border-r border-slate-300 text-right font-black text-emerald-700 w-[11%]">₹0.00</td><td class="no-print bg-white border-none w-[4%]"></td>
                         </tr>
@@ -168,52 +237,115 @@
                 </table>
             </div>
 
-            <button onclick="window.addManualRow()" class="no-print mt-4 text-xs bg-blue-50 border border-blue-200 text-blue-700 font-black py-2 px-4 rounded-xl">+ Add Another Row</button>
+            <!-- Touch friendly add item button -->
+            <button onclick="window.addManualRow()" class="no-print mt-2 md:mt-4 text-sm md:text-xs bg-blue-50 border border-blue-200 text-blue-700 font-black py-3 md:py-2 px-4 rounded-xl shadow-sm md:shadow-none w-full md:w-auto min-h-[44px] active:scale-95 transition-transform">+ Add Item</button>
 
-            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-start text-xs">
+            <!-- Bottom Sections (Terms & Totals Grid) -->
+            <div class="mt-6 md:mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-start text-xs md:text-xs">
                 <div class="space-y-4">
                     <div>
-                        <h4 class="font-bold text-blue-900 mb-1 uppercase tracking-wide">Terms & Conditions / Comments:</h4>
-                        <ul class="list-decimal pl-4 space-y-0.5 text-slate-600 font-medium"><li>Total payment due in Seven days</li><li>Please Include the tax Invoice number on your cheque</li></ul>
+                        <h4 class="font-bold text-blue-900 mb-1 uppercase tracking-wide text-sm md:text-xs">Terms & Conditions / Comments:</h4>
+                        <ul class="list-decimal pl-4 space-y-1 md:space-y-0.5 text-slate-600 font-medium text-sm md:text-xs"><li>Total payment due in Seven days</li><li>Please Include the tax Invoice number on your cheque</li></ul>
                     </div>
                     <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 shadow-inner">
-                        <div class="flex justify-between items-center mb-1.5">
-                            <h4 class="font-bold text-blue-900 uppercase tracking-wide">Account Details:</h4>
-                            <select id="bankSelectMaster" onchange="window.handleBankSelection()" class="no-print bg-yellow-100/50 border border-yellow-200 rounded text-[10px] font-bold outline-none text-blue-900 px-1 py-1"><option value="">-- Select Bank --</option></select>
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-2 md:mb-1.5 gap-2">
+                            <h4 class="font-bold text-blue-900 uppercase tracking-wide text-sm md:text-xs">Account Details:</h4>
+                            <select id="bankSelectMaster" onchange="window.handleBankSelection()" class="no-print bg-yellow-100/50 border border-yellow-200 rounded font-bold outline-none text-blue-900 px-2 py-2 md:py-1 min-h-[44px] md:min-h-0 text-xs w-full md:w-auto"><option value="">-- Select Bank --</option></select>
                         </div>
-                        <div class="font-mono text-[11px] text-slate-700 space-y-0.5 font-bold">
+                        <div class="font-mono text-xs md:text-[11px] text-slate-700 space-y-1 md:space-y-0.5 font-bold">
                             <div>Bank Name: <span id="lblBankName">[SELECT BANK]</span></div><div>Account No: <span id="lblBankAcc">...</span></div><div>IFSC Code: <span id="lblBankIfsc">...</span></div><div>MICR Code: <span id="lblBankMicr">...</span></div><div>Branch: <span id="lblBankBranch">...</span></div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-blue-50/50 rounded-xl p-4 border border-blue-100 space-y-3 font-mono text-xs font-bold text-slate-700">
-                    <div class="flex justify-between border-b border-blue-100/60 pb-1.5"><span>Taxable Value :</span><span id="blockTaxable" class="text-slate-900">₹0.00</span></div><div class="flex justify-between border-b border-blue-100/60 pb-1.5"><span>Tax rate :</span><span id="blockTaxRate" class="text-slate-900">0%</span></div><div class="flex justify-between border-b border-blue-100/60 pb-1.5"><span>Total Tax due :</span><span id="blockTaxDue" class="text-slate-900">₹0.00</span></div><div class="flex justify-between border-b border-blue-100/60 pb-1.5"><span>Other :</span><span class="text-slate-900">₹0.00</span></div><div class="flex justify-between pt-2 text-sm bg-emerald-50 p-2 rounded-lg border border-emerald-100"><span class="text-emerald-900 font-black">TOTAL :</span><span id="blockGrandTotal" class="text-emerald-700 font-black text-lg">₹0.00</span></div>
+                <div class="bg-blue-50/50 rounded-xl p-4 md:p-4 border border-blue-100 space-y-3 font-mono text-sm md:text-xs font-bold text-slate-700">
+                    <div class="flex justify-between border-b border-blue-100/60 pb-1.5"><span>Taxable Value :</span><span id="blockTaxable" class="text-slate-900">₹0.00</span></div><div class="flex justify-between border-b border-blue-100/60 pb-1.5"><span>Tax rate :</span><span id="blockTaxRate" class="text-slate-900">0%</span></div><div class="flex justify-between border-b border-blue-100/60 pb-1.5"><span>Total Tax due :</span><span id="blockTaxDue" class="text-slate-900">₹0.00</span></div><div class="flex justify-between border-b border-blue-100/60 pb-1.5"><span>Other :</span><span class="text-slate-900">₹0.00</span></div><div class="flex justify-between pt-2 text-base md:text-sm bg-emerald-50 p-3 md:p-2 rounded-lg border border-emerald-100"><span class="text-emerald-900 font-black">TOTAL :</span><span id="blockGrandTotal" class="text-emerald-700 font-black text-xl md:text-lg">₹0.00</span></div>
                 </div>
             </div>
 
-            <div class="mt-12 flex flex-col items-end text-xs">
+            <div class="mt-12 flex flex-col items-center md:items-end text-sm md:text-xs">
                 <div class="text-center">
                     <p id="footerSignatoryName" class="font-bold text-slate-900 mb-12 uppercase">COMPANY NAME</p>
-                    <p class="border-t-2 border-slate-400 pt-1 w-44 text-slate-600 font-bold">Authorised Signatory</p>
+                    <p class="border-t-2 border-slate-400 pt-1 w-48 md:w-44 text-slate-600 font-bold">Authorised Signatory</p>
                 </div>
             </div>
         </div>
 
-        <div class="no-print w-full flex justify-end mt-6">
-            <button id="triggerPrintBtn" onclick="window.saveInvoiceToFirebase()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3 px-8 rounded-xl shadow-lg transition-all text-sm md:text-base">🖨️ Print / Save Document Invoice</button>
+        <!-- 🚀 SPRINT 8A: MOBILE STICKY BOTTOM ACTION BAR -->
+        <div class="no-print fixed bottom-0 left-0 w-full bg-slate-900 border-t border-slate-700 p-3 md:static md:bg-transparent md:border-none md:p-0 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.3)] md:shadow-none z-50 flex justify-between md:justify-end items-center mt-0 md:mt-5 gap-3 pb-safe">
+            <!-- Mobile Total Display -->
+            <div class="md:hidden flex flex-col pl-2">
+                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none mb-1">Total</span>
+                <span id="stickyMobileTotal" class="text-xl font-black text-emerald-400 leading-none">₹0.00</span>
+            </div>
+            
+            <div class="flex gap-2 w-auto md:w-full md:justify-end">
+                <button onclick="window.confirmFreshInvoice()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-4 md:px-6 rounded-xl shadow transition-all text-sm border border-slate-500/50 active:scale-95 flex justify-center min-h-[44px]">🆕 <span class="hidden md:inline ml-1">New / Clear</span></button>
+                <button id="triggerPrintBtn" onclick="window.saveInvoiceToFirebase()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3 px-6 md:px-8 rounded-xl shadow-lg transition-all text-sm active:scale-95 flex justify-center min-h-[44px]">🖨️ Save <span class="hidden md:inline"> / Print</span></button>
+            </div>
         </div>
 
-        <div class="no-print w-full mt-12 bg-slate-800 border border-slate-700 rounded-2xl shadow-xl p-4 md:p-6 mb-12">
-            <h3 class="text-lg font-black text-blue-400 mb-4 tracking-wide flex items-center gap-2">📂 Enterprise Cloud Records</h3>
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6 bg-slate-900/50 p-4 rounded-xl border border-slate-700/50 text-xs">
-                <div><label class="block text-slate-400 font-mono mb-1">Start Date</label><input type="date" id="filterStartDate" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white outline-none focus:border-blue-500"></div>
-                <div><label class="block text-slate-400 font-mono mb-1">End Date</label><input type="date" id="filterEndDate" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white outline-none focus:border-blue-500"></div>
-                <div><label class="block text-slate-400 font-mono mb-1">Invoice No</label><input type="text" id="filterInvNo" oninput="this.value=this.value.toUpperCase()" placeholder="RFC/001" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white outline-none focus:border-blue-500 font-mono"></div>
-                <div><label class="block text-slate-400 font-mono mb-1">Client Search</label><input type="text" id="filterClientName" list="clientList" placeholder="Search Client..." class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white outline-none focus:border-blue-500"></div>
-                <div class="col-span-2 md:col-span-1 flex items-end gap-2"><button onclick="window.applyFiltersTrigger()" class="w-1/2 md:w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-1.5 rounded-lg transition-all shadow text-center">Search</button><button onclick="window.clearFiltersTrigger()" class="w-1/2 md:w-full bg-slate-700 hover:bg-slate-600 text-slate-300 font-bold py-1.5 rounded-lg transition-all text-center">Reset</button></div>
+        <div class="no-print w-full mt-8 md:mt-12 bg-slate-800 border border-slate-700 rounded-2xl shadow-xl p-4 md:p-6 mb-6">
+            <h3 class="text-base md:text-lg font-black text-blue-400 mb-4 tracking-wide flex items-center gap-2">📂 Enterprise Cloud Records</h3>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-3 mb-6 bg-slate-900/50 p-4 rounded-xl border border-slate-700/50 text-xs">
+                <div><label class="block text-slate-400 font-mono mb-1">Start Date</label><input type="date" id="filterStartDate" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-2 md:py-1.5 text-white outline-none focus:border-blue-500 min-h-[44px] md:min-h-0"></div>
+                <div><label class="block text-slate-400 font-mono mb-1">End Date</label><input type="date" id="filterEndDate" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-2 md:py-1.5 text-white outline-none focus:border-blue-500 min-h-[44px] md:min-h-0"></div>
+                <div><label class="block text-slate-400 font-mono mb-1">Invoice No</label><input type="text" id="filterInvNo" oninput="this.value=this.value.toUpperCase()" placeholder="RFC/001" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-2 md:py-1.5 text-white outline-none focus:border-blue-500 font-mono min-h-[44px] md:min-h-0"></div>
+                <div><label class="block text-slate-400 font-mono mb-1">Client Search</label><input type="text" id="filterClientName" list="clientList" placeholder="Search Client..." class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-2 md:py-1.5 text-white outline-none focus:border-blue-500 min-h-[44px] md:min-h-0"></div>
+                <div class="md:col-span-1 flex items-end gap-2"><button onclick="window.applyFiltersTrigger()" class="w-1/2 md:w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-2.5 md:py-1.5 rounded-lg transition-all shadow text-center min-h-[44px] md:min-h-0">Search</button><button onclick="window.clearFiltersTrigger()" class="w-1/2 md:w-full bg-slate-700 hover:bg-slate-600 text-slate-300 font-bold py-2.5 md:py-1.5 rounded-lg transition-all text-center min-h-[44px] md:min-h-0">Reset</button></div>
             </div>
-            <div class="overflow-x-auto"><table class="w-full text-left border-collapse"><thead><tr class="border-b border-slate-700 text-slate-400 text-[11px] font-bold uppercase tracking-wider"><th class="py-2 px-3">Date</th><th class="py-2 px-3">Invoice No</th><th class="py-2 px-3">Client Name</th><th class="py-2 px-3">Grand Total</th><th class="py-2 px-3 text-center">Action Manager</th></tr></thead><tbody id="historyTableBody" class="text-slate-300"></tbody></table></div>
-            <div class="w-full flex justify-center mt-4 pt-2 border-t border-slate-700/50"><button id="loadMoreRecordsBtn" onclick="window.loadNextBatchTrigger()" class="hidden bg-slate-700/60 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-mono font-bold py-2 px-6 rounded-xl transition-all border border-slate-600/40">🔄 Load More Records</button></div>
+            <div class="overflow-x-auto"><table class="w-full text-left border-collapse min-w-[600px]"><thead><tr class="border-b border-slate-700 text-slate-400 text-[11px] font-bold uppercase tracking-wider"><th class="py-2 px-3">Date</th><th class="py-2 px-3">Invoice No</th><th class="py-2 px-3">Client Name</th><th class="py-2 px-3">Grand Total</th><th class="py-2 px-3 text-center">Action Manager</th></tr></thead><tbody id="historyTableBody" class="text-slate-300"></tbody></table></div>
+            <div class="w-full flex justify-center mt-4 pt-2 border-t border-slate-700/50"><button id="loadMoreRecordsBtn" onclick="window.loadNextBatchTrigger()" class="hidden bg-slate-700/60 hover:bg-slate-700 text-slate-300 hover:text-white text-sm md:text-xs font-mono font-bold py-3 md:py-2 px-6 rounded-xl transition-all border border-slate-600/40 min-h-[44px]">🔄 Load More Records</button></div>
+        </div>
+
+        <div id="userManagementSection" class="no-print w-full mt-6 bg-slate-800 border border-slate-700 rounded-2xl shadow-xl p-4 md:p-6 mb-6 transition-all hidden">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-3 border-b border-slate-700 pb-3">
+                <div>
+                    <h3 class="text-base md:text-lg font-black text-blue-400 tracking-wide flex items-center gap-2">👥 User Management & Team Access</h3>
+                    <p class="text-[11px] md:text-xs text-slate-400 font-sans mt-0.5">Manage workspace admin and staff accounts</p>
+                </div>
+                <button onclick="window.toggleCreateUserModal(true)" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black py-2.5 md:py-2 px-4 rounded-xl text-sm md:text-xs shadow transition-all active:scale-95 w-full md:w-auto min-h-[44px]">+ Provision New User</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-[600px]">
+                    <thead>
+                        <tr class="border-b border-slate-700 text-slate-400 text-[11px] font-bold uppercase tracking-wider">
+                            <th class="py-2 px-3">Name</th>
+                            <th class="py-2 px-3">Email</th>
+                            <th class="py-2 px-3">Role</th>
+                            <th class="py-2 px-3 text-center">Status</th>
+                            <th class="py-2 px-3 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody" class="text-slate-300 text-xs font-mono divide-y divide-slate-700/50">
+                        <tr><td colspan="5" class="py-4 text-center text-slate-500 font-sans">Loading Team Members...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="auditLogSection" class="no-print w-full mt-6 bg-slate-800 border border-slate-700 rounded-2xl shadow-xl p-4 md:p-6 mb-12 transition-all hidden">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-3 border-b border-slate-700 pb-3 font-sans">
+                <div>
+                    <h3 class="text-base md:text-lg font-black text-blue-400 tracking-wide flex items-center gap-2">📜 Activity Log</h3>
+                    <p class="text-[11px] md:text-xs text-slate-400 mt-0.5">Immutable accountability record of key workspace events</p>
+                </div>
+                <button onclick="window.loadAuditLogsTrigger()" class="bg-slate-700 hover:bg-slate-600 text-slate-300 font-bold py-2.5 md:py-1.5 px-4 md:px-3 rounded-xl text-sm md:text-xs transition-all border border-slate-600 active:scale-95 font-sans w-full md:w-auto min-h-[44px]">🔄 Refresh Logs</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-[600px]">
+                    <thead>
+                        <tr class="border-b border-slate-700 text-slate-400 text-[11px] font-bold uppercase tracking-wider font-sans">
+                            <th class="py-2 px-3 w-2/12">Time</th>
+                            <th class="py-2 px-3 w-3/12">User Name</th>
+                            <th class="py-2 px-3 w-3/12">Action</th>
+                            <th class="py-2 px-3 w-4/12">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="auditTableBody" class="text-slate-300 text-xs font-mono divide-y divide-slate-700/50">
+                        <tr><td colspan="4" class="py-4 text-center text-slate-500 font-sans">⚡ Loading Activity Records...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -233,10 +365,44 @@
                 </ul>
             </div>
             
-            <button onclick="window.closeWelcomeModal()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-3 rounded-xl transition-all shadow-lg">Let's Get Started 🚀</button>
+            <button onclick="window.closeWelcomeModal()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-3 rounded-xl transition-all shadow-lg min-h-[44px]">Let's Get Started 🚀</button>
         </div>
     </div>
 
+    <div id="createUserModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white text-slate-800 w-full max-w-md rounded-2xl p-6 shadow-2xl">
+            <div class="flex justify-between items-center mb-4 border-b pb-2">
+                <h3 class="text-lg font-black text-blue-900 font-sans">👥 Provision New User</h3>
+                <button onclick="window.toggleCreateUserModal(false)" class="text-red-500 font-bold text-xl min-h-[44px] min-w-[44px]">&times;</button>
+            </div>
+            <div id="createUserErrorMsg" class="hidden mb-3 p-2 bg-red-100 border border-red-300 rounded text-red-700 text-xs font-bold text-center"></div>
+            <form id="createUserForm" onsubmit="window.handleCreateUserSubmit(event)" class="space-y-3 font-sans">
+                <div>
+                    <label class="text-xs font-bold text-slate-500 block mb-1">Full Name *</label>
+                    <input type="text" id="newUserName" required placeholder="Employee / Admin Name" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none focus:border-blue-500 text-sm font-medium min-h-[44px]">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 block mb-1">Email Address *</label>
+                    <input type="email" id="newUserEmail" required placeholder="name@company.com" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none focus:border-blue-500 text-sm font-medium min-h-[44px]">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 block mb-1">Password (Min 8 chars) *</label>
+                    <input type="password" id="newUserPassword" required minlength="8" placeholder="••••••••" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none focus:border-blue-500 text-sm font-medium min-h-[44px]">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 block mb-1">System Role *</label>
+                    <select id="newUserRole" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none focus:border-blue-500 text-sm font-bold text-blue-900 bg-white min-h-[44px]">
+                        <option value="staff" selected>Staff (Restricted Access)</option>
+                        <option value="admin">Owner/Admin (Full Access)</option>
+                    </select>
+                </div>
+                <button type="submit" id="submitCreateUserBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3 rounded-xl mt-5 shadow-lg transition-all text-sm active:scale-98 min-h-[44px]">Create User Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- For dynamic height adjustments for sticky bar padding -->
+    <style> .pb-safe { padding-bottom: env(safe-area-inset-bottom); } </style>
     <script type="module" src="./js/app.js"></script>
 </body>
 </html>

@@ -11,13 +11,11 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
     }
     
-    // Defensive Null Check applied
     function isActive() {
       let data = getUserData();
       return data != null && data.active == true;
     }
     
-    // Defensive Null Check applied
     function isAdmin() { 
       let data = getUserData(); 
       return data != null && data.role == 'admin'; 
@@ -34,22 +32,20 @@ service cloud.firestore {
     // --- USERS COLLECTION ---
     match /users/{userId} {
       allow read: if isAuthed() && (request.auth.uid == userId || (isActive() && isAdmin() && belongsToCompany()));
-      
       allow create: if isAuthed() && (
         // Registration Flow
         (request.auth.uid == userId 
          && request.resource.data.role == 'admin' 
          && get(/databases/$(database)/documents/companies/$(request.resource.data.companyId)).data.ownerUid == request.auth.uid) 
         || 
-        // Admin Staff/Admin Creation Flow (Option A: Multiple Admins Allowed)
+        // Admin Staff/Admin Creation Flow
         (request.auth.uid != userId 
          && isActive() 
          && isAdmin() 
          && request.resource.data.companyId == getUserData().companyId)
       );
-
       allow update: if isAuthed() && isActive() && (
-        // Self Update (No Role/Active/Company hopping)
+        // Self Update
         (request.auth.uid == userId 
          && request.resource.data.companyId == resource.data.companyId 
          && request.resource.data.role == resource.data.role           
@@ -73,11 +69,7 @@ service cloud.firestore {
     // --- COMPANIES COLLECTION ---
     match /companies/{companyId} {
       allow read: if isAuthed() && isActive() && getUserData().companyId == companyId;
-      
-      // Strict Ownership validation on Create
       allow create: if isAuthed() && request.resource.data.ownerUid == request.auth.uid && !exists(/databases/$(database)/documents/companies/$(companyId)); 
-      
-      // Immutability Patch applied
       allow update: if isAuthed() && isActive() && getUserData().companyId == companyId && isAdmin()
                     && request.resource.data.companyId == resource.data.companyId
                     && request.resource.data.ownerUid == resource.data.ownerUid;
@@ -105,8 +97,15 @@ service cloud.firestore {
     match /invoices/{docId} {
       allow read: if belongsToCompany();
       allow create: if incomingBelongsToCompany();
-      allow update: if belongsToCompany(); // Staff can edit
+      allow update: if belongsToCompany(); 
       allow delete: if belongsToCompany() && isAdmin();
+    }
+
+    // --- 📜 AUDIT LOG SYSTEM (SPRINT 7.3) ---
+    match /auditLogs/{docId} {
+      allow read: if belongsToCompany() && isAdmin();
+      allow create: if incomingBelongsToCompany();
+      allow update, delete: if false; // Strict Immutability (Write-Once Records)
     }
   }
 }
