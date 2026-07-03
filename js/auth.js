@@ -7,13 +7,12 @@ import { auth, db, firebaseConfig } from './firebase.js';
 const secondaryApp = initializeApp(firebaseConfig, "SecondaryInstance");
 const secondaryAuth = getAuth(secondaryApp);
 
-window.erpSession = { uid: null, companyId: null, role: null, profile: null, email: null };
+window.erpSession = { uid: null, companyId: null, role: null, profile: null, email: null, name: '' };
 
-// ✅ NAYA: Guard flag to prevent race conditions during registration
 window.isRegistrationInProgress = false;
 
 export const registerNewCompanySaaS = async (companyName, ownerName, email, password) => {
-    window.isRegistrationInProgress = true; // 🔒 Lock onAuthStateChanged
+    window.isRegistrationInProgress = true; 
     
     let userCredential, user, uid;
     try {
@@ -21,7 +20,7 @@ export const registerNewCompanySaaS = async (companyName, ownerName, email, pass
         user = userCredential.user;
         uid = user.uid;
     } catch (authError) {
-        window.isRegistrationInProgress = false; // Release lock if auth fails immediately
+        window.isRegistrationInProgress = false; 
         throw authError;
     }
     
@@ -57,8 +56,8 @@ export const registerNewCompanySaaS = async (companyName, ownerName, email, pass
             createdAt: serverTimestamp()
         });
 
-        // ✅ Session directly yahan banao (No guesswork)
-        window.erpSession = { uid, companyId, role: "admin", profile: companyProfile, email };
+        // 🔥 Attaching ownerName as session name
+        window.erpSession = { uid, companyId, role: "admin", profile: companyProfile, email, name: ownerName };
         return { uid, companyId };
         
     } catch (error) {
@@ -66,21 +65,23 @@ export const registerNewCompanySaaS = async (companyName, ownerName, email, pass
         await deleteUser(user).catch(() => {});
         throw new Error("Provisioning failed. Account creation rolled back safely. Reason: " + error.message);
     } finally {
-        window.isRegistrationInProgress = false; // 🔓 Always release the lock
+        window.isRegistrationInProgress = false; 
     }
 };
 
-export const createStaffAccount = async (staffName, staffEmail, staffPassword) => {
-    if (window.erpSession.role !== 'admin') throw new Error("Only admins can provision staff accounts.");
-    const staffCredential = await createUserWithEmailAndPassword(secondaryAuth, staffEmail, staffPassword);
-    const staffUid = staffCredential.user.uid;
-    await setDoc(doc(db, "users", staffUid), {
-        uid: staffUid, companyId: window.erpSession.companyId, role: "staff",
-        name: staffName, email: staffEmail, createdBy: window.erpSession.uid,
+export const createUserAccount = async (name, email, password, role = "staff") => {
+    if (window.erpSession.role !== 'admin') throw new Error("Only admins can provision user accounts.");
+    if (role !== "admin" && role !== "staff") role = "staff";
+    
+    const userCredential = await createUserWithEmailAndPassword(secondaryAuth, email, password);
+    const newUid = userCredential.user.uid;
+    await setDoc(doc(db, "users", newUid), {
+        uid: newUid, companyId: window.erpSession.companyId, role: role,
+        name: name, email: email, createdBy: window.erpSession.uid,
         active: true, createdAt: serverTimestamp()
     });
     await signOut(secondaryAuth);
-    return staffUid;
+    return newUid;
 };
 
 export const loginUser = async (email, password) => {
@@ -93,14 +94,12 @@ export const logoutUser = async () => {
 
 export const monitorAuthState = (callback) => {
     onAuthStateChanged(auth, async (user) => {
-        // ✅ NAYA: Agar registration chal raha hai, toh beech mein taang mat adao
         if (window.isRegistrationInProgress) return; 
         
         if (user) {
             try {
                 let userDocSnap = await getDoc(doc(db, "users", user.uid));
                 
-                // Defensive fallback for normal logins just in case
                 if (!userDocSnap.exists()) {
                     await new Promise(resolve => setTimeout(resolve, 1500));
                     userDocSnap = await getDoc(doc(db, "users", user.uid));
@@ -114,7 +113,16 @@ export const monitorAuthState = (callback) => {
                     
                     let companyDocSnap = await getDoc(doc(db, "companies", userData.companyId));
                     const companyProfile = companyDocSnap.exists() ? companyDocSnap.data() : null;
-                    window.erpSession = { uid: user.uid, companyId: userData.companyId, role: userData.role, profile: companyProfile, email: user.email };
+                    
+                    // 🔥 Attaching human 'name' directly to erpSession
+                    window.erpSession = { 
+                        uid: user.uid, 
+                        companyId: userData.companyId, 
+                        role: userData.role, 
+                        profile: companyProfile, 
+                        email: user.email,
+                        name: userData.name || ''
+                    };
                     applyDynamicUIAccessRules();
                     callback(user);
                 } else {
@@ -123,7 +131,7 @@ export const monitorAuthState = (callback) => {
                 }
             } catch (err) { console.error("Session resolve crashed:", err); await signOut(auth); callback(null); }
         } else {
-            window.erpSession = { uid: null, companyId: null, role: null, profile: null, email: null };
+            window.erpSession = { uid: null, companyId: null, role: null, profile: null, email: null, name: '' };
             callback(null);
         }
     });
@@ -131,7 +139,7 @@ export const monitorAuthState = (callback) => {
 
 function applyDynamicUIAccessRules() {
     const isStaffMode = window.erpSession.role === 'staff';
-    const masterControls = document.querySelectorAll('#saveProdBtn, #productMasterForm button.bg-red-100, #savePartyBtn, #partyMasterForm button.bg-red-100, #saveBankBtn, #bankMasterForm button.bg-red-100, [onclick="window.toggleSettingsModal(true)"]');
+    const masterControls = document.querySelectorAll('#saveProdBtn, #productMasterForm button.bg-red-100, #savePartyBtn, #partyMasterForm button.bg-red-100, #saveBankBtn, #bankMasterForm button.bg-red-100, [onclick="window.toggleSettingsModal(true)"], #userManagementSection, #navTeamMgmtBtn, #auditLogSection, #navAuditLogBtn');
     const invoiceDeleteBtns = document.querySelectorAll('[onclick^="window.deleteInvoiceFromCloud"]');
     if (isStaffMode) {
         masterControls.forEach(btn => btn?.classList.add('hidden')); invoiceDeleteBtns.forEach(btn => btn?.classList.add('hidden'));
