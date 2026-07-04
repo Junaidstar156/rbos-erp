@@ -25,8 +25,12 @@ export const deleteBankDB = async (docId) => deleteDoc(doc(db, "bankAccounts", d
 
 // --- INVOICE ENGINE ---
 export const saveInvoiceDB = async (data, docId = null) => {
-    if (docId) return await setDoc(doc(db, "invoices", docId), data, { merge: true });
-    else return await addDoc(collection(db, "invoices"), data);
+    if (docId) {
+        const docRef = doc(db, "invoices", docId);
+        await setDoc(docRef, data, { merge: true });
+        return docRef;
+    }
+    return await addDoc(collection(db, "invoices"), data);
 };
 
 export const deleteInvoiceDB = async (id) => deleteDoc(doc(db, "invoices", id));
