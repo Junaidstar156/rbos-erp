@@ -1,6 +1,6 @@
 import { createUserAccount } from '../auth.js';
 import { getCompanyUsersDB, toggleUserStatusDB, getAuditLogsDB, saveAuditLogDB } from '../database.js';
-import { escapeHTML } from './ui.js';
+import { escapeHTML } from './utils.js';
 
 export function logActivity(action, details = {}) {
     if (!window.erpSession?.companyId || !window.erpSession?.uid) return;

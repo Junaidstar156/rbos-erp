@@ -1,4 +1,4 @@
-import { formatINR } from './ui.js';
+import { formatINR } from './utils.js';
 import { calculateInvoiceData } from '../invoice.js'; // Imports from root invoice.js
 
 export function calculateInvoiceCoreValues() {

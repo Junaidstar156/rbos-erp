@@ -1,5 +1,5 @@
 import { fetchDashboardMetricsDB } from '../database.js';
-import { escapeHTML } from './ui.js';
+import { escapeHTML } from './utils.js';
 
 export async function renderDashboardModule(companyId) {
     if (!companyId) return;

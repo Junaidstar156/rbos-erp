@@ -1,5 +1,5 @@
 import { getCompanyProfileDB, saveCompanyProfileDB, runLegacyDataMigration } from '../database.js';
-import { escapeHTML } from './ui.js';
+import { escapeHTML } from './utils.js';
 import { logActivity } from './admin.js';
 
 export async function initCompanyProfile() {

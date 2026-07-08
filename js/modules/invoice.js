@@ -1,7 +1,7 @@
 import { saveInvoiceDB, deleteInvoiceDB, fetchInvoicesAdvancedDB } from '../database.js';
 import { logActivity } from './admin.js';
 import { renderDashboardModule } from './dashboard.js';
-import { escapeHTML } from './ui.js';
+import { escapeHTML } from './utils.js';
 
 import { createNewRow } from './invoice-table.js';
 import { calculateInvoiceCoreValues } from './invoice-calculation.js';
