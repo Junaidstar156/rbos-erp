@@ -6,11 +6,11 @@ const PIN_IN_TEXT_REGEX = /\b\d{6}\b/;
 const INVOICE_PREFIX_REGEX = /^[A-Z0-9-]{2,8}$/;
 
 export function isValidGstin(value) {
-    return GSTIN_REGEX.test(value);
+    return !value || GSTIN_REGEX.test(value);
 }
 
 export function isValidPan(value) {
-    return PAN_REGEX.test(value);
+    return !value || PAN_REGEX.test(value);
 }
 
 export function isValidMobile(value) {

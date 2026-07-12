@@ -27,6 +27,15 @@ window.toggleSettingsModal = function(show) {
     if(modal) modal.classList.toggle('hidden', !show); 
 };
 
+window.toggleSettingsDropdown = function() {
+    const dropdown = document.getElementById('settingsDropdown');
+    if(dropdown) {
+        const willOpen = dropdown.classList.contains('hidden');
+        dropdown.classList.toggle('hidden', !willOpen);
+        dropdown.classList.toggle('flex', willOpen);
+    }
+};
+
 window.toggleCreateUserModal = function(show) {
     const modal = document.getElementById('createUserModal');
     const err = document.getElementById('createUserErrorMsg');

@@ -54,7 +54,7 @@ export function calculateInvoiceData(itemsData, billingState) {
         };
     });
 
-    const roundedGrandTotal = Math.round(grandTotal);
+    const roundedGrandTotal = Math.round((grandTotal + Number.EPSILON) * 100) / 100;
 
     return {
         itemsMath,

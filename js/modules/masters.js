@@ -106,8 +106,14 @@ window.savePartyToMaster = async function(e) {
         const proceed = confirm("Address does not contain a valid 6-digit PIN code.\n\nPIN code is recommended for GST-compliant invoices and delivery records.\n\nPress OK to Save Anyway.\nPress Cancel to review the address.");
         if (!proceed) return;
     }
-    if (gstin && !isValidGstin(gstin)) { alert("Validation Error: Invalid GSTIN format.\nExpected format: 22AAAAA0000A1Z5"); return; }
-    if (pan && !isValidPan(pan)) { alert("Validation Error: Invalid PAN format.\nExpected format: ABCDE1234F (5 letters, 4 numbers, 1 letter)"); return; }
+    if (gstin && !isValidGstin(gstin)) {
+        const proceed = confirm("Validation Error: Invalid GSTIN format.\nExpected format: 22AAAAA0000A1Z5\n\nPress OK to Save Anyway.\nPress Cancel to review the GSTIN.");
+        if (!proceed) return;
+    }
+    if (pan && !isValidPan(pan)) {
+        const proceed = confirm("Validation Error: Invalid PAN format.\nExpected format: ABCDE1234F (5 letters, 4 numbers, 1 letter)\n\nPress OK to Save Anyway.\nPress Cancel to review the PAN.");
+        if (!proceed) return;
+    }
     if (mobile && !isValidMobile(mobile)) { alert("Validation Error: Mobile number must contain exactly 10 digits."); return; }
     if (email && !isValidEmail(email)) { alert("Validation Error: Please enter a valid email address."); return; }
 
