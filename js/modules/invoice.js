@@ -1,5 +1,5 @@
 import { saveInvoiceDB, deleteInvoiceDB, fetchInvoicesAdvancedDB } from '../database.js';
-import { logActivity } from './admin.js';
+import { logActivity } from './audit.js';
 import { renderDashboardModule } from './dashboard.js';
 import { escapeHTML } from './utils.js';
 

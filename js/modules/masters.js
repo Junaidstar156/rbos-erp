@@ -1,6 +1,6 @@
 import { getProductsDB, getPartiesDB, getBanksDB, saveProductDB, deleteProductDB, savePartyDB, deletePartyDB, saveBankDB, deleteBankDB } from '../database.js';
 import { renderDashboardModule } from './dashboard.js';
-import { logActivity } from './admin.js';
+import { logActivity } from './audit.js';
 
 export async function fetchProductMaster() {
     try {

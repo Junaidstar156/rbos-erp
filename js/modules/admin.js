@@ -1,14 +1,7 @@
 import { createUserAccount } from '../auth.js';
-import { getCompanyUsersDB, toggleUserStatusDB, getAuditLogsDB, saveAuditLogDB } from '../database.js';
+import { getCompanyUsersDB, toggleUserStatusDB, getAuditLogsDB } from '../database.js';
 import { escapeHTML } from './utils.js';
-
-export function logActivity(action, details = {}) {
-    if (!window.erpSession?.companyId || !window.erpSession?.uid) return;
-    const userNameStr = window.erpSession.name || window.erpSession.email || 'Authorized Member';
-    saveAuditLogDB(window.erpSession.companyId, action, window.erpSession.uid, userNameStr, details).catch(err => {
-        console.warn("Audit log safely suppressed:", err);
-    });
-}
+import { logActivity } from './audit.js';
 
 window.scrollToUserManagement = function() {
     const sec = document.getElementById('userManagementSection');
