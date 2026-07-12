@@ -320,6 +320,9 @@ export function renderInvoiceRowRecords(docSnap, append = false) {
     const data = docSnap.data();
     window.invoiceCache[docSnap.id] = data; 
     const displayName = (data.partySnapshot && data.partySnapshot.name) ? data.partySnapshot.name : (data.clientName || 'Unknown');
+    const deleteButton = window.erpSession?.role === 'admin'
+        ? `<button onclick="window.deleteInvoiceFromCloud('${docSnap.id}')" class="bg-red-600 hover:bg-red-500 text-white font-bold py-1 px-2 rounded text-[10px] min-h-[36px]">Delete</button>`
+        : '';
     const tr = document.createElement('tr');
     tr.className = "border-b border-slate-700 hover:bg-slate-800 text-xs font-mono text-slate-300";
     tr.id = `history-row-${docSnap.id}`;
@@ -331,7 +334,7 @@ export function renderInvoiceRowRecords(docSnap, append = false) {
         <td class="py-2.5 px-3 text-center flex justify-center gap-1.5">
             <button onclick="window.downloadPastInvoiceDirectly('${docSnap.id}')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-1 px-2.5 rounded text-[10px] min-h-[36px]">Download</button>
             <button onclick="window.editPastInvoice('${docSnap.id}')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-1 px-2 rounded text-[10px] min-h-[36px]">Edit</button>
-            <button onclick="window.deleteInvoiceFromCloud('${docSnap.id}')" class="bg-red-600 hover:bg-red-500 text-white font-bold py-1 px-2 rounded text-[10px] min-h-[36px]">Delete</button>
+            ${deleteButton}
         </td>
     `;
     historyBody.appendChild(tr);

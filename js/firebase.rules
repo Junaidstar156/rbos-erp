@@ -80,24 +80,31 @@ service cloud.firestore {
     match /products/{docId} {
       allow read: if belongsToCompany();
       allow create: if incomingBelongsToCompany() && isAdmin();
-      allow update, delete: if belongsToCompany() && isAdmin();
+      allow update: if belongsToCompany() && isAdmin()
+                    && request.resource.data.companyId == resource.data.companyId;
+      allow delete: if belongsToCompany() && isAdmin();
     }
     match /parties/{docId} {
       allow read: if belongsToCompany();
       allow create: if incomingBelongsToCompany() && isAdmin();
-      allow update, delete: if belongsToCompany() && isAdmin();
+      allow update: if belongsToCompany() && isAdmin()
+                    && request.resource.data.companyId == resource.data.companyId;
+      allow delete: if belongsToCompany() && isAdmin();
     }
     match /bankAccounts/{docId} {
       allow read: if belongsToCompany();
       allow create: if incomingBelongsToCompany() && isAdmin();
-      allow update, delete: if belongsToCompany() && isAdmin();
+      allow update: if belongsToCompany() && isAdmin()
+                    && request.resource.data.companyId == resource.data.companyId;
+      allow delete: if belongsToCompany() && isAdmin();
     }
 
     // --- TRANSACTIONS (Invoices) ---
     match /invoices/{docId} {
       allow read: if belongsToCompany();
       allow create: if incomingBelongsToCompany();
-      allow update: if belongsToCompany(); 
+      allow update: if belongsToCompany()
+                    && request.resource.data.companyId == resource.data.companyId;
       allow delete: if belongsToCompany() && isAdmin();
     }
 

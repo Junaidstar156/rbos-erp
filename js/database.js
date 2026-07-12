@@ -1,5 +1,5 @@
 import { db } from './firebase.js';
-import { collection, addDoc, setDoc, doc, getDoc, deleteDoc, query, orderBy, getDocs, limit, where, startAfter, writeBatch, updateDoc, getCountFromServer, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { collection, addDoc, setDoc, doc, getDoc, deleteDoc, query, orderBy, getDocs, limit, where, startAfter, updateDoc, getCountFromServer, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // --- COMPANY PROFILE (SPRINT 6A) ---
 export const getCompanyProfileDB = async (companyId) => {
@@ -54,28 +54,6 @@ export const fetchInvoicesAdvancedDB = async (filters = {}, lastDoc = null, batc
     constraints.push(limit(batchSize));
     // 🔥 TYPO FIXED: Changed .constraints to ...constraints
     return await getDocs(query(collection(db, "invoices"), ...constraints));
-};
-
-// --- LEGACY MIGRATION ENGINE ---
-export const runLegacyDataMigration = async (companyId) => {
-    const collectionsToMigrate = ['invoices', 'products', 'parties', 'bankAccounts'];
-    let totalMigrated = 0;
-    for (const colName of collectionsToMigrate) {
-        const snap = await getDocs(collection(db, colName));
-        const batch = writeBatch(db);
-        let count = 0;
-        snap.forEach(d => {
-            if (!d.data().companyId) {
-                batch.update(doc(db, colName, d.id), { companyId: companyId });
-                count++;
-            }
-        });
-        if (count > 0) {
-            await batch.commit();
-            totalMigrated += count;
-        }
-    }
-    return totalMigrated;
 };
 
 // --- USER MANAGEMENT ENGINE (SPRINT 7.1) ---

@@ -73,15 +73,29 @@ export const createUserAccount = async (name, email, password, role = "staff") =
     if (window.erpSession.role !== 'admin') throw new Error("Only admins can provision user accounts.");
     if (role !== "admin" && role !== "staff") role = "staff";
     
-    const userCredential = await createUserWithEmailAndPassword(secondaryAuth, email, password);
-    const newUid = userCredential.user.uid;
-    await setDoc(doc(db, "users", newUid), {
-        uid: newUid, companyId: window.erpSession.companyId, role: role,
-        name: name, email: email, createdBy: window.erpSession.uid,
-        active: true, createdAt: serverTimestamp()
-    });
-    await signOut(secondaryAuth);
-    return newUid;
+    let secondaryUser = null;
+    try {
+        const userCredential = await createUserWithEmailAndPassword(secondaryAuth, email, password);
+        secondaryUser = userCredential.user;
+        const newUid = secondaryUser.uid;
+        await setDoc(doc(db, "users", newUid), {
+            uid: newUid, companyId: window.erpSession.companyId, role: role,
+            name: name, email: email, createdBy: window.erpSession.uid,
+            active: true, createdAt: serverTimestamp()
+        });
+        return newUid;
+    } catch (error) {
+        if (secondaryUser) {
+            await deleteUser(secondaryUser).catch(cleanupError => {
+                console.error("Secondary user cleanup failed:", cleanupError);
+            });
+        }
+        throw error;
+    } finally {
+        await signOut(secondaryAuth).catch(signOutError => {
+            console.error("Secondary auth sign-out failed:", signOutError);
+        });
+    }
 };
 
 export const loginUser = async (email, password) => {

@@ -1,4 +1,4 @@
-import { getCompanyProfileDB, saveCompanyProfileDB, runLegacyDataMigration } from '../database.js';
+import { getCompanyProfileDB, saveCompanyProfileDB } from '../database.js';
 import { escapeHTML } from './utils.js';
 import { logActivity } from './audit.js';
 import { isValidGstin, isValidMobile, isValidEmail, containsPinCode, isValidInvoicePrefix } from './validation.js';
@@ -92,17 +92,4 @@ window.saveCompanySettings = async function(e) {
         logActivity("settings_updated", { companyName: rawCompName }); 
     } catch (error) { alert("Failed to save settings: " + error.message); } 
     finally { if(btn) { btn.innerText = "Save Settings"; btn.disabled = false; } }
-};
-
-window.migrateLegacyData = async function() {
-    const btn = document.getElementById('migrateDataBtn');
-    if(!btn) return;
-    if(!confirm("Warning: This will link all legacy data to the new Cloud Engine. Continue?")) return;
-    try {
-        btn.innerText = "Migrating... Please Wait"; btn.disabled = true;
-        const totalMigrated = await runLegacyDataMigration(window.erpSession.companyId);
-        alert(`Migration Successful! ${totalMigrated} legacy records successfully linked.`);
-        window.location.reload(); 
-    } catch(err) { alert("Migration failed: " + err.message); } 
-    finally { btn.innerHTML = "<span>⚠️ Run Legacy Data Migration</span>"; btn.disabled = false; }
 };
