@@ -1,6 +1,7 @@
 import { getCompanyProfileDB, saveCompanyProfileDB, runLegacyDataMigration } from '../database.js';
 import { escapeHTML } from './utils.js';
 import { logActivity } from './audit.js';
+import { isValidGstin, isValidMobile, isValidEmail, containsPinCode, isValidInvoicePrefix } from './validation.js';
 
 export async function initCompanyProfile() {
     try {
@@ -61,15 +62,11 @@ window.saveCompanySettings = async function(e) {
 
     if (!rawCompName || rawCompName.length < 2) { alert("Validation Error: Company Name is mandatory and must contain at least 2 valid characters."); return; }
     if (!rawAddress) { alert("Validation Error: Company Address is mandatory."); return; }
-    if (!/\b\d{6}\b/.test(rawAddress)) { alert("Validation Error: Company Address must contain a valid 6-digit Indian PIN code (e.g., 250002)."); return; }
-    const gstinRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
-    if (rawGstin && !gstinRegex.test(rawGstin)) { alert("Validation Error: Invalid GSTIN format.\nExpected format: 22AAAAA0000A1Z5"); return; }
-    const mobRegex = /^\d{10}$/;
-    if (rawMob && !mobRegex.test(rawMob)) { alert("Validation Error: Mobile number must contain exactly 10 digits."); return; }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (rawEmail && !emailRegex.test(rawEmail)) { alert("Validation Error: Please enter a valid email address."); return; }
-    const prefixRegex = /^[A-Z0-9-]{2,8}$/;
-    if (!rawPrefix || !prefixRegex.test(rawPrefix)) { alert("Validation Error: Invoice Prefix is mandatory and must be 2 to 8 characters long, containing only uppercase letters, numbers, or hyphens (e.g., RFC, FY26)."); return; }
+    if (!containsPinCode(rawAddress)) { alert("Validation Error: Company Address must contain a valid 6-digit Indian PIN code (e.g., 250002)."); return; }
+    if (rawGstin && !isValidGstin(rawGstin)) { alert("Validation Error: Invalid GSTIN format.\nExpected format: 22AAAAA0000A1Z5"); return; }
+    if (rawMob && !isValidMobile(rawMob)) { alert("Validation Error: Mobile number must contain exactly 10 digits."); return; }
+    if (rawEmail && !isValidEmail(rawEmail)) { alert("Validation Error: Please enter a valid email address."); return; }
+    if (!rawPrefix || !isValidInvoicePrefix(rawPrefix)) { alert("Validation Error: Invoice Prefix is mandatory and must be 2 to 8 characters long, containing only uppercase letters, numbers, or hyphens (e.g., RFC, FY26)."); return; }
 
     document.getElementById('setCompName').value = rawCompName;
     document.getElementById('setCompAddress').value = rawAddress;

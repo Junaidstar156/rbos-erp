@@ -1,6 +1,7 @@
 import { getProductsDB, getPartiesDB, getBanksDB, saveProductDB, deleteProductDB, savePartyDB, deletePartyDB, saveBankDB, deleteBankDB } from '../database.js';
 import { renderDashboardModule } from './dashboard.js';
 import { logActivity } from './audit.js';
+import { isValidGstin, isValidPan, isValidMobile, isValidEmail, containsPinCode } from './validation.js';
 
 export async function fetchProductMaster() {
     try {
@@ -101,18 +102,14 @@ window.savePartyToMaster = async function(e) {
 
     if (!partyName || partyName.length < 2) { alert("Validation Error: Party Name is mandatory and must contain at least 2 valid characters."); return; }
     if (!address) { alert("Validation Error: Address is mandatory for Party Master."); return; }
-    if (!/\b\d{6}\b/.test(address)) {
+    if (!containsPinCode(address)) {
         const proceed = confirm("Address does not contain a valid 6-digit PIN code.\n\nPIN code is recommended for GST-compliant invoices and delivery records.\n\nPress OK to Save Anyway.\nPress Cancel to review the address.");
         if (!proceed) return;
     }
-    const gstinRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
-    if (gstin && !gstinRegex.test(gstin)) { alert("Validation Error: Invalid GSTIN format.\nExpected format: 22AAAAA0000A1Z5"); return; }
-    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-    if (pan && !panRegex.test(pan)) { alert("Validation Error: Invalid PAN format.\nExpected format: ABCDE1234F (5 letters, 4 numbers, 1 letter)"); return; }
-    const mobRegex = /^\d{10}$/;
-    if (mobile && !mobRegex.test(mobile)) { alert("Validation Error: Mobile number must contain exactly 10 digits."); return; }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (email && !emailRegex.test(email)) { alert("Validation Error: Please enter a valid email address."); return; }
+    if (gstin && !isValidGstin(gstin)) { alert("Validation Error: Invalid GSTIN format.\nExpected format: 22AAAAA0000A1Z5"); return; }
+    if (pan && !isValidPan(pan)) { alert("Validation Error: Invalid PAN format.\nExpected format: ABCDE1234F (5 letters, 4 numbers, 1 letter)"); return; }
+    if (mobile && !isValidMobile(mobile)) { alert("Validation Error: Mobile number must contain exactly 10 digits."); return; }
+    if (email && !isValidEmail(email)) { alert("Validation Error: Please enter a valid email address."); return; }
 
     if(document.getElementById('partyNameModal')) document.getElementById('partyNameModal').value = partyName;
     if(document.getElementById('partyAddrModal')) document.getElementById('partyAddrModal').value = address;
