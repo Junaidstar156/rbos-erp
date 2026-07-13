@@ -1,0 +1,13 @@
+{
+  "name": "rbos-erp",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "verify": "node --no-warnings --experimental-vm-modules scripts/verify.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
